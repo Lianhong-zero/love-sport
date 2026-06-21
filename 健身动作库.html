@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="blue">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<title>健身运动库</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="运动库">
+<meta name="theme-color" content="#000000">
+<meta name="description" content="海量健身动作库，覆盖全身肌群训练">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏋️</text></svg>">
+<script>
+var m={"name":"健身运动库","short_name":"运动库","start_url":".","display":"standalone","background_color":"#000000","theme_color":"#000000","description":"海量健身动作库","icons":[{"src":"data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏋️</text></svg>","sizes":"100x100","type":"image/svg+xml"}]};
+var blob=new Blob([JSON.stringify(m)],{type:'application/json'});
+var link=document.createElement('link');link.rel='manifest';link.href=URL.createObjectURL(blob);document.head.appendChild(link);
+</script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>tailwind.config={theme:{extend:{fontFamily:{apple:['-apple-system','BlinkMacSystemFont','"SF Pro Display"','"Helvetica Neue"','Arial','sans-serif']}}},darkMode:'class'}</script>
+<style>
+:root{--text-primary:#1d1d1f;--text-secondary:#6e6e73;--text-inverse:#fff;--theme-color:#007aff;--theme-hover:#0055b3;--theme-bg-light:rgba(0,122,255,0.12);--bg-primary:#fff;--bg-secondary:#f5f5f7;--search-bg:#fff;--search-text:#1d1d1f;--search-placeholder:#8e8e93}
+[data-theme="dark"]{--text-primary:#f5f5f7;--text-secondary:#8e8e93;--text-inverse:#1d1d1f;--theme-color:#0a84ff;--theme-hover:#409cff;--theme-bg-light:rgba(10,132,255,0.2);--bg-primary:#1c1c1e;--bg-secondary:#2c2c2e;--search-bg:#2c2c2e;--search-text:#f5f5f7;--search-placeholder:#8e8e93}
+[data-theme="green"]{--theme-color:#34c759;--theme-hover:#28a745;--theme-bg-light:rgba(52,199,89,0.12)}[data-theme="green"][data-theme="dark"]{--theme-color:#30d158;--theme-hover:#5ae07a;--theme-bg-light:rgba(48,209,88,0.2)}
+[data-theme="orange"]{--theme-color:#ff9500;--theme-hover:#e68a00;--theme-bg-light:rgba(255,149,0,0.12)}[data-theme="orange"][data-theme="dark"]{--theme-color:#ff9f0a;--theme-hover:#ffb340;--theme-bg-light:rgba(255,159,10,0.2)}
+[data-theme="purple"]{--theme-color:#af52de;--theme-hover:#8e44ad;--theme-bg-light:rgba(175,82,222,0.12)}[data-theme="purple"][data-theme="dark"]{--theme-color:#bf5af2;--theme-hover:#d27df7;--theme-bg-light:rgba(191,90,242,0.2)}
+*{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;background:var(--bg-primary);color:var(--text-primary);padding-bottom:calc(80px + env(safe-area-inset-bottom,0px));transition:background 0.3s,color 0.3s;overflow-x:hidden;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+.glass{backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);background:rgba(255,255,255,0.72)}[data-theme="dark"] .glass{background:rgba(28,28,30,0.85);border-color:rgba(255,255,255,0.08)}
+.glass-dark{backdrop-filter:blur(20px) saturate(180%);-webkit-backdrop-filter:blur(20px) saturate(180%);background:rgba(28,28,30,0.85);border-color:rgba(255,255,255,0.08)}
+.workout-card{transition:all 0.3s cubic-bezier(0.25,0.46,0.45,0.94);background:var(--bg-primary);border-color:var(--theme-bg-light)}@media(hover:hover){.workout-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px -12px rgba(0,0,0,0.2)}}.workout-card:active{transform:scale(0.97);transition-duration:0.08s}
+.touch-feedback:active{transform:scale(0.94);transition-duration:0.08s}
+.no-scrollbar::-webkit-scrollbar{display:none}.no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+.section-headline{font-size:clamp(1.2rem,3vw,1.8rem);font-weight:700;letter-spacing:-0.02em;color:var(--text-primary)}
+.bottom-safe{padding-bottom:env(safe-area-inset-bottom,0px)}
+.pill-active{background:var(--theme-color)!important;color:#fff!important;font-weight:500!important;min-height:44px;display:inline-flex;align-items:center}
+.pill-idle{background:var(--theme-bg-light)!important;color:var(--text-secondary)!important;min-height:44px;display:inline-flex;align-items:center;transition:all 0.2s}
+.pill-idle:active{background:var(--theme-color)!important;color:#fff!important}
+@keyframes slideUp{from{opacity:0;transform:translateY(40px) scale(0.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes slideDownOut{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(30px) scale(0.96)}}
+.animate-in{animation:slideUp 0.3s cubic-bezier(0.25,0.46,0.45,0.94)}
+.animate-out{animation:slideDownOut 0.2s cubic-bezier(0.25,0.46,0.45,0.94) forwards}
+@media(min-width:540px){.card-grid{grid-template-columns:repeat(2,1fr)!important}}@media(min-width:1024px){.card-grid{grid-template-columns:repeat(3,1fr)!important}}
+@media(max-width:767px){#detailOverlay>div,#calcOverlay>div{border-radius:20px 20px 0 0!important;margin:0!important;max-width:100%!important;position:fixed!important;bottom:0!important;left:0!important;right:0!important;max-height:90vh!important}#detailOverlay,#calcOverlay{align-items:flex-end!important;padding-top:0!important}}
+</style>
+</head>
+<body>
+
+<header class="fixed top-0 left-0 w-full z-50 glass border-b border-white/20 dark:border-white/5 transition-colors">
+  <div class="px-4 h-14 flex items-center justify-between gap-2 max-w-6xl mx-auto">
+    <span class="text-lg font-semibold flex-shrink-0" style="color:var(--text-primary)">🏋️ 运动库</span>
+    <div class="flex-1 max-w-md relative">
+      <input type="text" id="searchInput" placeholder="搜索动作、肌群、器械..." class="w-full rounded-full px-4 py-2 text-sm shadow-sm" style="background:var(--search-bg);color:var(--search-text);border:2px solid var(--theme-bg-light);min-height:40px" />
+    </div>
+    <div class="flex items-center gap-1 flex-shrink-0">
+      <button onclick="openCalc()" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-black/5 dark:hover:bg-white/5 touch-feedback text-lg" aria-label="计算器" style="color:var(--text-primary)">📐</button>
+      <button onclick="toggleTheme()" id="themeBtn" class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-black/5 dark:hover:bg-white/5 touch-feedback text-lg" aria-label="主题" style="color:var(--text-primary)">🌙</button>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-6xl mx-auto px-4 pt-20 pb-8">
+  <section class="relative rounded-2xl overflow-hidden mb-6" style="background:var(--theme-bg-light)">
+    <div class="px-5 py-6 sm:py-10 flex flex-col gap-3">
+      <span class="text-xs font-semibold tracking-[0.2em] uppercase" style="color:var(--text-secondary)">动作库</span>
+      <h1 class="text-3xl sm:text-5xl font-bold tracking-tight leading-[1.1]" style="color:var(--text-primary)">探索 <span id="heroCount" style="color:var(--theme-color)">---</span> 个<br>训练动作</h1>
+      <p class="text-sm" style="color:var(--text-secondary);max-width:480px">覆盖全身肌群，入门到专业。点击筛选或搜索，找到适合你的动作。</p>
+      <div class="flex gap-2 mt-1">
+        <button onclick="resetAll()" class="px-6 py-3 rounded-full text-sm font-medium text-white shadow-lg touch-feedback" style="background:var(--theme-color);min-height:44px">浏览全部</button>
+        <button onclick="document.getElementById('searchInput').focus()" class="px-6 py-3 rounded-full text-sm font-medium touch-feedback" style="background:var(--theme-bg-light);color:var(--theme-color);min-height:44px">🔍 搜索</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="mb-6 space-y-4">
+    <div><div class="flex items-center justify-between mb-2"><h2 class="text-sm font-semibold uppercase tracking-wider" style="color:var(--text-secondary)">🎯 目标肌群（单选）</h2></div><div class="flex gap-2 overflow-x-auto no-scrollbar pb-1" id="musclePills"></div></div>
+    <div><div class="flex items-center justify-between mb-2"><h2 class="text-sm font-semibold uppercase tracking-wider" style="color:var(--text-secondary)">🏃 动作类型（单选）</h2></div><div class="flex gap-2 overflow-x-auto no-scrollbar pb-1" id="categoryPills"></div></div>
+    <div><div class="flex items-center justify-between mb-2"><h2 class="text-sm font-semibold uppercase tracking-wider" style="color:var(--text-secondary)">🔧 器械（多选）</h2></div><div class="flex gap-2 overflow-x-auto no-scrollbar pb-1" id="equipPills"></div></div>
+    <div><div class="flex items-center justify-between mb-2"><h2 class="text-sm font-semibold uppercase tracking-wider" style="color:var(--text-secondary)">📊 难度（多选）</h2></div><div class="flex gap-2 overflow-x-auto no-scrollbar pb-1" id="diffPills"></div></div>
+  </div>
+
+  <div class="flex items-center justify-between mb-3">
+    <h2 class="section-headline" id="resultLabel">全部动作</h2>
+    <span class="text-sm" style="color:var(--text-secondary)" id="resultCount"></span>
+  </div>
+  <div class="grid grid-cols-1 card-grid gap-3 md:gap-4" id="cardGrid"></div>
+  <p class="text-center text-[11px] tracking-wider mt-12 pb-4" style="color:var(--text-secondary);opacity:0.4">健身运动库 · 移动优先</p>
+</main>
+
+<footer class="fixed bottom-0 left-0 w-full glass-dark border-t border-white/10 bottom-safe z-40">
+  <div class="max-w-6xl mx-auto px-4 h-[68px] flex items-center justify-around text-xs font-light">
+    <div class="flex flex-col items-center gap-0.5 touch-feedback" style="color:#f5f5f7" onclick="resetAll()"><span class="text-xl">🏠</span><span>首页</span></div>
+    <div class="flex flex-col items-center gap-0.5 touch-feedback" style="color:#f5f5f7" onclick="document.getElementById('searchInput').focus()"><span class="text-xl">🔍</span><span>搜索</span></div>
+    <div class="flex flex-col items-center gap-0.5 touch-feedback" style="color:#f5f5f7" onclick="resetAll()"><span class="text-xl">📋</span><span>全部</span></div>
+    <div class="flex flex-col items-center gap-0.5 touch-feedback" style="color:#f5f5f7" onclick="toggleTheme()"><span class="text-xl">🎨</span><span>主题</span></div>
+  </div>
+</footer>
+
+<div id="detailOverlay" class="fixed inset-0 z-[60] hidden flex items-start justify-center pt-16 overflow-y-auto" style="background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)">
+  <div id="detailCard" class="w-full max-w-lg mx-4 my-4 rounded-2xl shadow-2xl border overflow-hidden" style="background:var(--bg-primary);border-color:var(--theme-bg-light)">
+    <div class="p-4 border-b flex items-center justify-between" style="border-color:var(--theme-bg-light)"><span class="text-sm" style="color:var(--text-secondary)" id="detailBreadcrumb"></span><button onclick="closeDetail()" class="w-8 h-8 rounded-full flex items-center justify-center text-lg touch-feedback" style="background:var(--theme-bg-light);color:var(--text-primary)">✕</button></div>
+    <div class="p-5 space-y-5 max-h-[65vh] overflow-y-auto" id="detailContent"></div>
+    <div class="p-5 border-t flex gap-3" style="border-color:var(--theme-bg-light)"><button class="flex-1 py-3 rounded-xl text-white font-medium text-sm touch-feedback" style="background:var(--theme-color)" onclick="alert('训练计划功能即将上线')">📋 添加到训练计划</button><button onclick="closeDetail()" class="px-5 py-3 rounded-xl font-medium text-sm touch-feedback" style="background:var(--theme-bg-light);color:var(--text-primary)">返回</button></div>
+  </div>
+</div>
+
+<div id="calcOverlay" class="fixed inset-0 z-[60] hidden flex items-start justify-center pt-20" style="background:rgba(0,0,0,0.6);backdrop-filter:blur(4px)">
+  <div id="calcCard" class="w-full max-w-md mx-4 rounded-2xl shadow-2xl border overflow-hidden" style="background:var(--bg-primary);border-color:var(--theme-bg-light)">
+    <div class="p-4 border-b flex items-center justify-between" style="border-color:var(--theme-bg-light)"><span class="font-semibold" style="color:var(--text-primary)">📐 身体数据计算器</span><button onclick="closeCalc()" class="w-8 h-8 rounded-full flex items-center justify-center text-lg touch-feedback" style="background:var(--theme-bg-light);color:var(--text-primary)">✕</button></div>
+    <div class="p-5 space-y-4">
+      <div><label class="text-xs font-semibold uppercase tracking-wider mb-1.5 block" style="color:var(--text-secondary)">性别</label><div class="flex gap-3"><button onclick="setGender('male',this)" id="btnMale" class="flex-1 py-2.5 rounded-xl text-sm font-medium" style="background:var(--theme-color);color:#fff">男性</button><button onclick="setGender('female',this)" id="btnFemale" class="flex-1 py-2.5 rounded-xl text-sm font-medium" style="background:var(--theme-bg-light);color:var(--text-secondary)">女性</button></div></div>
+      <div><label class="text-xs font-semibold uppercase tracking-wider mb-1.5 block" style="color:var(--text-secondary)">身高 (cm)</label><input id="inHeight" type="number" placeholder="175" class="w-full py-3 px-4 rounded-xl border text-base" style="background:var(--search-bg);color:var(--search-text);border-color:var(--theme-bg-light)"></div>
+      <div><label class="text-xs font-semibold uppercase tracking-wider mb-1.5 block" style="color:var(--text-secondary)">体重 (kg)</label><input id="inWeight" type="number" placeholder="70" class="w-full py-3 px-4 rounded-xl border text-base" style="background:var(--search-bg);color:var(--search-text);border-color:var(--theme-bg-light)"></div>
+      <div><label class="text-xs font-semibold uppercase tracking-wider mb-1.5 block" style="color:var(--text-secondary)">年龄</label><input id="inAge" type="number" placeholder="25" class="w-full py-3 px-4 rounded-xl border text-base" style="background:var(--search-bg);color:var(--search-text);border-color:var(--theme-bg-light)"></div>
+      <div id="calcResult" class="hidden space-y-3 pt-3 border-t" style="border-color:var(--theme-bg-light)"><div class="flex justify-between items-center"><span class="text-sm" style="color:var(--text-secondary)">BMI</span><span class="text-xl font-bold" style="color:var(--text-primary)" id="resBmi">--</span></div><div class="flex justify-between items-center"><span class="text-sm" style="color:var(--text-secondary)">BMI 评价</span><span class="text-sm font-semibold" style="color:var(--text-primary)" id="resBmiLabel">--</span></div><div class="flex justify-between items-center"><span class="text-sm" style="color:var(--text-secondary)">基础代谢 (BMR)</span><span class="text-xl font-bold" style="color:var(--text-primary)" id="resBmr">--</span><span class="text-xs" style="color:var(--text-secondary)">千卡/天</span></div></div>
+      <button onclick="doCalc()" class="w-full py-3 rounded-xl text-sm font-semibold text-white touch-feedback" style="background:var(--theme-color)">计算</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ==================== 动作数据引擎 ====================
+(function(){
+var diff={入门:1,初级:2,中级:3,高级:4,专业:5};
+var eq={barbell:['杠铃'],dumbbell:['哑铃'],machine:['固定器械'],cable:['绳索(龙门架)'],bodyweight:['自重'],kettlebell:['壶铃'],band:['弹力带']};
+var eqDiffs={barbell:['中级','高级'],dumbbell:['初级','中级','高级'],machine:['入门','初级','中级'],cable:['入门','初级','中级'],bodyweight:['入门','初级','中级'],kettlebell:['初级','中级','高级'],band:['入门','初级']};
+var diffOverride={'引体向上':['中级','高级','专业'],'反握引体向上':['中级','高级','专业'],'双杠臂屈伸':['中级','高级','专业'],'手枪深蹲':['高级','专业'],'双力臂':['高级','专业'],'北欧腿弯举':['高级','专业'],'土耳其起立':['中级','高级','专业'],'派克俯卧撑':['中级','高级'],'钻石俯卧撑':['初级','中级','高级'],'健腹轮卷腹':['中级','高级'],'悬垂举腿':['初级','中级','高级'],'平板支撑':['入门','初级'],'侧平板支撑':['入门','初级'],'鸟狗式':['入门','初级'],'靠墙静蹲':['入门','初级'],'空心体保持':['入门','初级','中级'],'猫牛式':['入门'],'鸽式拉伸':['入门'],'西斯深蹲':['中级','高级'],'泽奇深蹲':['中级','高级','专业'],'库班推举':['初级','中级'],'潘德莱划船':['中级','高级'],'火箭推':['初级','中级','高级'],'登山者':['入门','初级','中级'],'斯文德推胸':['入门','初级'],'弹力带面拉':['入门','初级','中级'],'弹力带夹胸':['入门','初级'],'凳上臂屈伸':['入门','初级'],'弹力带划船':['入门','初级']};
+var bases=[
+{n:'卧推',c:'卧推类',m:['胸大肌中部'],s:['三角肌前束','肱三头肌'],r:'上肢',t:'复合动作',me:'推',region:'upper',desc:'卧推是发展上肢推力的首选复合动作，主要刺激胸大肌，同时协同肩部和三头肌。',steps:['仰卧平凳，双脚踩实地板','握距略宽于肩，收紧肩胛骨下沉后收','吸气缓慢下放至下胸位置，肘与身体呈45-60°','轻触胸部后呼气发力推起','手臂伸直但不锁死肘关节'],tips:['全程保持肩胛骨收紧贴凳','肘部保持在45-60°','下放控制2-3秒，推起爆发用力'],mistakes:[{m:'肘部外展过大',f:'将肘部收至与身体呈45-60°'},{m:'臀部离凳',f:'减小腰部拱桥幅度或减轻重量'}],vari:['barbell','dumbbell','machine']},
+{n:'上斜卧推',c:'卧推类',m:['胸大肌上部'],s:['三角肌前束','肱三头肌'],r:'上肢',t:'复合动作',me:'推',region:'upper',desc:'上斜卧推重点刺激胸大肌上部，打造饱满方形胸肌。',steps:['卧推凳调至30-45°','握距略宽于肩，收紧肩胛','吸气下放至锁骨/上胸位置','呼气发力推起'],tips:['角度不超过45°'],mistakes:[{m:'角度过高',f:'调回30-45°'}],vari:['barbell','dumbbell']},
+{n:'下斜卧推',c:'卧推类',m:['胸大肌下部'],s:['三角肌前束','肱三头肌'],r:'上肢',t:'复合动作',me:'推',region:'upper',desc:'下斜卧推重点刺激胸大肌下部。',steps:['卧推凳调至-15至-30°','双脚勾住固定垫','握杠下放至下胸','推起至手臂伸直'],tips:['下放位置略低于平板卧推'],mistakes:[{m:'杠铃下放过低',f:'下放至下胸/上腹即可'}],vari:['barbell','dumbbell']},
+{n:'飞鸟',c:'飞鸟类',m:['胸大肌中部'],s:['三角肌前束'],r:'上肢',t:'孤立动作',me:'屈',region:'upper',desc:'飞鸟是雕刻胸肌形态的经典孤立动作。',steps:['仰卧平凳，双手持重物手臂伸直在胸上方，掌心相对','微屈肘部并保持角度不变','吸气双臂向两侧缓慢展开感受胸肌拉伸','呼气胸肌发力像抱大树一样收回'],tips:['肘部角度全程保持不变','感受度优先，不追求大重量'],mistakes:[{m:'手臂伸太直',f:'保持肘部微屈'}],vari:['dumbbell','cable','machine']},
+{n:'俯卧撑',c:'卧推类',m:['胸大肌中部'],s:['三角肌前束','肱三头肌','核心肌群'],r:'上肢',t:'复合动作',me:'推',region:'upper',desc:'最经典的自重上肢训练，随时随地可做。',steps:['双手撑地略宽于肩','身体从头到脚跟呈直线','吸气弯肘下放至胸近地','呼气推起'],tips:['肘与身体呈45°','核心和臀部全程收紧'],mistakes:[{m:'塌腰',f:'收紧核心和臀部'}],vari:['bodyweight']},
+{n:'划船',c:'划船类',m:['背阔肌'],s:['菱形肌','斜方肌','肱二头肌','竖脊肌'],r:'上肢',t:'复合动作',me:'拉',region:'upper',desc:'划船是增加背部厚度和力量的核心动作。',steps:['俯身/坐姿，背部挺直，核心收紧','双手握重物，手臂伸直','呼气用肘部带动将重物拉向腹部/躯干','顶峰夹紧肩胛骨1秒','吸气缓慢控制下放'],tips:['用肘部驱动而非手臂','全程背挺直'],mistakes:[{m:'弓背',f:'挺胸收核心，减轻重量'}],vari:['barbell','dumbbell','cable','machine']},
+{n:'下拉',c:'下拉类',m:['背阔肌'],s:['肱二头肌','菱形肌','三角肌后束'],r:'上肢',t:'复合动作',me:'拉',region:'upper',desc:'高位下拉是引体向上的替代和辅助动作。',steps:['坐器械上，大腿卡在垫板下','双手正握横杆，握距宽于肩','微后仰10-15°，挺胸','呼气下拉至锁骨位置','吸气控制上升'],tips:['下拉前先沉肩胛','离心阶段感受背阔肌拉伸'],mistakes:[{m:'身体大幅后仰',f:'收紧核心仅允许10-15°后仰'}],vari:['machine','cable']},
+{n:'引体向上',c:'下拉类',m:['背阔肌'],s:['肱二头肌','斜方肌','核心肌群'],r:'上肢',t:'复合动作',me:'拉',region:'upper',desc:'自重训练王者动作，全面锻炼背部肌群。',steps:['正握单杠，握距略宽于肩','悬挂沉肩，核心收紧','呼气背发力将身体上拉','下巴过杠后控制下放'],tips:['启动前先沉肩胛','想象肘部驱动'],mistakes:[{m:'只靠手臂',f:'先沉肩用背发力'}],vari:['bodyweight']},
+{n:'深蹲',c:'深蹲类',m:['股四头肌','臀大肌'],s:['腘绳肌','核心肌群','竖脊肌'],r:'下肢',t:'复合动作',me:'蹲',region:'lower',desc:'下肢训练之王，全面刺激股四头肌、臀大肌和腘绳肌。',steps:['双脚与肩同宽，脚尖微外八','将重量置于斜方肌上（非颈椎）/胸前/体侧','吸气收紧核心，臀部向后向下坐','下蹲至大腿低于水平面','呼气脚后跟发力推起'],tips:['背全程挺直','膝盖与脚尖方向一致','重心放脚后跟'],mistakes:[{m:'膝盖内扣',f:'有意识外推膝盖'},{m:'脚跟离地',f:'加强踝关节灵活性'}],vari:['barbell','dumbbell','machine','bodyweight','kettlebell']},
+{n:'前蹲',c:'深蹲类',m:['股四头肌'],s:['臀大肌','核心肌群'],r:'下肢',t:'复合动作',me:'蹲',region:'lower',desc:'前蹲将重量置于前肩位置，更强调股四头肌。',steps:['重量置于前肩和锁骨上，肘部抬高','保持挺胸直背','下蹲至大腿低于水平面','呼气发力站起'],tips:['肘部尽量抬高','躯干更直立'],mistakes:[{m:'肘部下垂',f:'刻意抬高肘部'}],vari:['barbell','kettlebell']},
+{n:'腿举/倒蹬',c:'深蹲类',m:['股四头肌'],s:['臀大肌','腘绳肌'],r:'下肢',t:'复合动作',me:'蹲',region:'lower',desc:'使用固定器械安全进行大重量下肢训练。',steps:['坐器械上，背贴靠背','双脚放踏板与肩同宽','解除安全锁，吸气屈膝下降','膝至90°后呼气推起'],tips:['腰全程贴靠背','膝盖不完全锁死'],mistakes:[{m:'下降过深臀部离凳',f:'膝至90°即可'}],vari:['machine']},
+{n:'腿屈伸',c:'深蹲类',m:['股四头肌'],s:[],r:'下肢',t:'孤立动作',me:'伸',region:'lower',desc:'孤立刺激股四头肌的最佳器械动作。',steps:['坐器械上，脚踝置于滚轴下','呼气伸展小腿至膝近直','顶峰收缩1-2秒','吸气控制下放'],tips:['顶峰不锁死膝盖','离心放慢效果更好'],mistakes:[{m:'快速弹踢',f:'减慢速度控制全程'}],vari:['machine']},
+{n:'腿弯举',c:'弯举类',m:['腘绳肌'],s:['小腿肌群'],r:'下肢',t:'孤立动作',me:'屈',region:'lower',desc:'孤立训练腘绳肌的首选动作。',steps:['俯卧器械上，脚踝后侧卡滚轴','呼气向臀部弯举','顶峰挤压腘绳肌','吸气控制下放'],tips:['髋部全程贴凳','离心放慢'],mistakes:[{m:'臀部抬起借力',f:'保持髋部贴凳'}],vari:['machine']},
+{n:'硬拉',c:'硬拉类',m:['竖脊肌','臀大肌'],s:['腘绳肌','斜方肌','前臂肌群','股四头肌'],r:'全身',t:'复合动作',me:'铰链',region:'full',desc:'力量训练三大项之一，全身力量之王。',steps:['双脚站于杠铃下方贴小腿，站距与髋同宽','屈髋俯身双手握杠','背全程挺直，挺胸沉肩','吸气收核心脚后跟发力拉起','杠铃贴腿上升至髋膝锁直'],tips:['杠铃全程贴身体','启动时想象用脚推开地面'],mistakes:[{m:'弓背',f:'减轻重量挺胸沉臀'}],vari:['barbell','dumbbell','kettlebell']},
+{n:'罗马尼亚硬拉',c:'硬拉类',m:['腘绳肌','臀大肌'],s:['竖脊肌','核心肌群'],r:'下肢',t:'复合动作',me:'铰链',region:'lower',desc:'传统硬拉变式，更专注腘绳肌和臀部的拉伸与收缩。',steps:['双脚与髋同宽，双手握杠铃','站直，杠铃靠大腿前侧','膝微屈并全程保持不变','臀后推，杠铃沿腿下滑','腘绳肌感到明显拉伸后臀前推回'],tips:['只有髋关节在铰链运动','杠铃始终贴腿'],mistakes:[{m:'膝盖弯曲过多',f:'保持膝盖微屈固定'}],vari:['barbell','dumbbell']},
+{n:'壶铃摇摆',c:'硬拉类',m:['臀大肌','腘绳肌'],s:['核心肌群','竖脊肌'],r:'全身',t:'复合动作',me:'铰链',region:'full',desc:'爆发力与有氧兼备，通过髋关节铰链驱动壶铃。',steps:['双脚略宽于肩，壶铃置体前','屈髋俯身握壶铃','壶铃从胯下后摆','爆发伸髋将壶铃前推','利用重力控制回落衔接下一次'],tips:['这是髋铰链不是深蹲','手臂只是挂钩'],mistakes:[{m:'用深蹲代替髋铰链',f:'膝盖只微屈臀大幅移动'}],vari:['kettlebell']},
+{n:'推举',c:'推举类',m:['三角肌前束','三角肌中束'],s:['肱三头肌','斜方肌'],r:'上肢',t:'复合动作',me:'推',region:'upper',desc:'发展肩部力量和体积的核心动作。',steps:['坐/站姿，重量置于肩部两侧','收紧核心，背部挺直','呼气将重量推过头顶','顶峰停留后吸气下放'],tips:['推举轨迹略成弧形','核心全程收紧'],mistakes:[{m:'腰部过度反弓',f:'收紧腹肌减轻重量'}],vari:['barbell','dumbbell','machine']},
+{n:'侧平举',c:'平举类',m:['三角肌中束'],s:['三角肌前束'],r:'上肢',t:'孤立动作',me:'举',region:'upper',desc:'打造宽阔肩部轮廓的关键动作。',steps:['站姿双手持重物垂于体侧','微屈肘部并保持角度','呼气三角肌发力向两侧平举','举至肩同高顶峰停留','吸气控制下放'],tips:['选轻重量追求肌肉感受','小拇指略高于大拇指'],mistakes:[{m:'耸肩借力',f:'先下沉肩胛骨再举'}],vari:['dumbbell','cable']},
+{n:'前平举',c:'平举类',m:['三角肌前束'],s:['胸大肌上部'],r:'上肢',t:'孤立动作',me:'举',region:'upper',desc:'孤立刺激三角肌前束。',steps:['站姿双手持重物垂于大腿前','微屈肘','呼气前举至肩同高','顶峰停留后吸气下放'],tips:['掌心朝下或相对','不要摆动借力'],mistakes:[{m:'摆动借力',f:'减轻重量'}],vari:['dumbbell','cable','barbell']},
+{n:'面拉',c:'划船类',m:['三角肌后束','菱形肌'],s:['斜方肌','肩袖肌群'],r:'上肢',t:'孤立动作',me:'拉',region:'upper',desc:'纠正圆肩驼背、改善肩部健康的黄金动作。',steps:['龙门架滑轮调至面部高度，装绳索手柄','双手抓绳后退拉紧','呼气将绳拉向面部，手分至耳两侧','顶峰手腕外旋拇指向后','吸气控制回'],tips:['顶峰手腕外旋是关键','轻重量高次数15-20次'],mistakes:[{m:'重量太大',f:'选轻重量做15-20次'}],vari:['cable']},
+{n:'弯举',c:'弯举类',m:['肱二头肌'],s:['前臂肌群'],r:'上肢',t:'孤立动作',me:'屈',region:'upper',desc:'最经典的肱二头肌训练动作。',steps:['站姿手臂自然下垂','上臂贴紧身体固定','呼气弯举至肩高度','顶峰收缩1-2秒','吸气控制下放'],tips:['上臂全程固定','离心慢放2-3秒'],mistakes:[{m:'身体摆动',f:'背靠墙壁减轻重量'}],vari:['barbell','dumbbell','cable']},
+{n:'锤式弯举',c:'弯举类',m:['肱二头肌','前臂肌群'],s:['肱肌'],r:'上肢',t:'孤立动作',me:'屈',region:'upper',desc:'中立握法弯举，更好刺激肱肌和前臂。',steps:['站姿掌心相对持重物（锤式握法）','上臂贴紧身体','呼气弯举至肩高度','顶峰收缩后吸气下放'],tips:['全程保持拇指朝前'],mistakes:[{m:'手腕不自觉旋转',f:'有意识保持中立握法'}],vari:['dumbbell']},
+{n:'臂屈伸',c:'弯举类',m:['肱三头肌'],s:[],r:'上肢',t:'孤立动作',me:'伸',region:'upper',desc:'肱三头肌孤立训练，打造马蹄形三头肌。',steps:['面对龙门架/持重物','上臂贴紧身体','呼气下压/后伸至手臂伸直','底部可微外旋增强收缩','吸气控制回'],tips:['上臂全程固定','底部手腕外旋'],mistakes:[{m:'上臂晃动',f:'夹紧身体减轻重量'}],vari:['cable','dumbbell']},
+{n:'双杠臂屈伸',c:'弯举类',m:['肱三头肌'],s:['胸大肌下部','三角肌前束'],r:'上肢',t:'复合动作',me:'伸',region:'upper',desc:'上肢推力王牌自重动作。',steps:['双手撑双杠，手臂伸直支撑','挺胸微前倾','吸气弯肘下降至上臂与地面平行','呼气发力推起'],tips:['身体前倾多→胸肌，竖直多→三头'],mistakes:[{m:'耸肩',f:'保持肩胛骨下沉'}],vari:['bodyweight']},
+{n:'卷腹',c:'腹肌类',m:['腹直肌'],s:['腹斜肌'],r:'核心',t:'孤立动作',me:'屈',region:'core',desc:'最基础的腹肌训练动作。',steps:['仰卧瑜伽垫，双膝弯曲','双手轻放头后或交叉胸前','呼气腹发力将肩胛骨抬离地面15-20cm','顶峰收缩1-2秒','吸气控制下放'],tips:['幅度小而精准','不要用力拉头'],mistakes:[{m:'双手用力拉头',f:'虚放耳侧不发力'}],vari:['bodyweight','machine']},
+{n:'平板支撑',c:'腹肌类',m:['核心肌群'],s:['腹直肌','腹斜肌'],r:'核心',t:'孤立动作',me:'伸',region:'core',desc:'最安全有效的核心训练入门动作。',steps:['俯卧双肘撑地于肩正下方','脚尖着地身体呈直线','收紧核心和臀部','保持自然呼吸'],tips:['收紧臀部防塌腰','视线看地面保颈椎中立'],mistakes:[{m:'塌腰',f:'收紧臀部和腹肌'}],vari:['bodyweight']},
+{n:'悬垂举腿',c:'腹肌类',m:['腹直肌'],s:['腹斜肌','髋屈肌'],r:'核心',t:'孤立动作',me:'屈',region:'core',desc:'腹肌训练高阶动作。',steps:['正握单杠身体悬挂','收核心骨盆微后倾','呼气腹发力上举双腿','举至腿与地面平行或更高','吸气控制下放'],tips:['先做骨盆后倾再举腿','不利用摆动'],mistakes:[{m:'利用摆动惯性',f:'控制速度减轻难度'}],vari:['bodyweight']},
+{n:'弓步蹲',c:'深蹲类',m:['股四头肌','臀大肌'],s:['腘绳肌','核心肌群'],r:'下肢',t:'复合动作',me:'弓步',region:'lower',desc:'单侧训练经典动作，纠正左右肌力不平衡。',steps:['站姿向前迈一大步','身体垂直下蹲至双膝约90°','前脚后跟发力推回起始','交替双腿'],tips:['前膝不超脚尖','躯干垂直不前倾'],mistakes:[{m:'前膝超过脚尖',f:'迈步更大保持小腿垂直'}],vari:['bodyweight','dumbbell','barbell']},
+{n:'臀推/臀桥',c:'深蹲类',m:['臀大肌'],s:['腘绳肌'],r:'下肢',t:'孤立动作',me:'伸',region:'lower',desc:'目前公认刺激臀大肌最高效的动作。',steps:['上背靠凳边，重量横跨髋部','双脚平放与肩同宽','呼气臀发力上推至肩膝直线','顶峰夹紧臀肌1-2秒','吸气下放不落地'],tips:['顶峰时想象耻骨推天花板','用护垫保护髋骨'],mistakes:[{m:'用腰过度伸展',f:'收紧核心只推到直线'}],vari:['barbell','bodyweight','band','machine']},
+{n:'提踵',c:'深蹲类',m:['小腿肌群'],s:[],r:'下肢',t:'孤立动作',me:'伸',region:'lower',desc:'针对小腿腓肠肌和比目鱼肌的孤立训练。',steps:['站姿/坐姿前脚掌踩踏板边缘','呼气踮脚尖至最高','顶峰收缩1-2秒','吸气控制下放'],tips:['全程控制速度','顶峰充分收缩'],mistakes:[{m:'弹跳借力',f:'放慢全程控制'}],vari:['bodyweight','machine','barbell']},
+{n:'反握引体向上',c:'下拉类',m:['背阔肌'],s:['肱二头肌','肱肌'],r:'上肢',t:'复合动作',me:'拉',region:'upper',desc:'反握引体向上更多地激活肱二头肌。',steps:['反握单杠，握距与肩同宽','悬挂沉肩，核心收紧','呼气背部和手臂发力上拉','下巴过杠后控制下放'],tips:['反握让二头肌更多参与'],mistakes:[{m:'摆动身体',f:'收紧核心控制稳定'}],vari:['bodyweight']},
+{n:'保加利亚分腿蹲',c:'深蹲类',m:['股四头肌','臀大肌'],s:['腘绳肌','核心肌群'],r:'下肢',t:'复合动作',me:'蹲',region:'lower',desc:'单腿深蹲的进阶变式，后脚抬高置于凳上。',steps:['站立背对平凳，一脚后伸脚尖置于凳上','前脚距凳约60-80cm','保持躯干挺直','吸气下蹲至前大腿低于水平','呼气前脚发力推起'],tips:['前脚膝盖不超脚尖','躯干垂直不前倾'],mistakes:[{m:'前膝内扣',f:'有意识将膝盖向外推'}],vari:['bodyweight','dumbbell','barbell']},
+{n:'阿诺德推举',c:'推举类',m:['三角肌前束','三角肌中束'],s:['肱三头肌','斜方肌'],r:'上肢',t:'复合动作',me:'推',region:'upper',desc:'在推举中加入旋转，更全面地刺激三角肌。',steps:['坐姿持哑铃于胸前，掌心朝自己','开始推举的同时旋转手腕','推至头顶时掌心朝前','顶峰停留后反向旋转下放'],tips:['旋转和推举同步进行'],mistakes:[{m:'旋转时机不对',f:'上推同时外旋'}],vari:['dumbbell']},
+{n:'直立划船',c:'平举类',m:['三角肌中束','斜方肌'],s:['三角肌前束','肱二头肌'],r:'上肢',t:'复合动作',me:'拉',region:'upper',desc:'将重量从大腿前侧沿身体拉至下巴高度。',steps:['站姿双手持重物垂于大腿前','握距约15-20cm','呼气沿身体将重物拉至下巴','肘部始终高于手腕','顶峰停留后吸气下放'],tips:['肘部向外上方抬起'],mistakes:[{m:'拉得过高',f:'拉到锁骨/下巴高度即可'}],vari:['barbell','dumbbell','cable']},
+{n:'俯身飞鸟',c:'飞鸟类',m:['三角肌后束'],s:['菱形肌','斜方肌'],r:'上肢',t:'孤立动作',me:'举',region:'upper',desc:'专门针对三角肌后束，改善肩部平衡和体态。',steps:['俯身至躯干接近水平','双手持轻量重物垂于肩下方','微屈肘，呼气将重物向两侧展开','顶峰夹紧后肩1秒','吸气控制下放'],tips:['选轻重量重感受','想象用后肩带动'],mistakes:[{m:'重量太大',f:'后束是小肌群，轻重量即可'}],vari:['dumbbell','cable']},
+{n:'牧师凳弯举',c:'弯举类',m:['肱二头肌'],s:['前臂肌群'],r:'上肢',t:'孤立动作',me:'屈',region:'upper',desc:'在牧师凳上进行弯举几乎杜绝借力。',steps:['坐牧师凳上，上臂和胸部紧贴斜垫','双手握重物手臂伸直','呼气弯举至肩高度','顶峰强烈收缩','吸气控制下放'],tips:['全程上臂贴紧垫面'],mistakes:[{m:'下放太快',f:'离心慢放'}],vari:['barbell','dumbbell','cable']},
+{n:'窄距卧推',c:'卧推类',m:['肱三头肌'],s:['胸大肌中部','三角肌前束'],r:'上肢',t:'复合动作',me:'推',region:'upper',desc:'握距窄于肩宽的卧推变式，更多负荷转移到肱三头肌。',steps:['仰卧平凳，双手握杠握距约肩宽','保持肩胛收紧','吸气将杠铃下放至下胸','呼气三头肌发力推起'],tips:['握距约15-25cm','肘部贴近身体'],mistakes:[{m:'握距过窄导致手腕不适',f:'调整至舒适握距'}],vari:['barbell']},
+{n:'俄罗斯转体',c:'腹肌类',m:['腹斜肌','腹直肌'],s:['核心肌群'],r:'核心',t:'孤立动作',me:'旋',region:'core',desc:'坐姿左右转体动作，重点训练腹内外斜肌。',steps:['坐地，上身微微后仰，双脚抬离地面','双手并拢置于胸前','呼气将躯干向一侧旋转','回到中间后转向另一侧'],tips:['核心全程收紧','用腹肌带动旋转'],mistakes:[{m:'只是手臂在动',f:'躯干旋转带动手臂'}],vari:['bodyweight']},
+{n:'高翻',c:'硬拉类',m:['全身爆发力'],s:['斜方肌','股四头肌','臀大肌','核心肌群'],r:'全身',t:'爆发力',me:'举',region:'full',desc:'奥林匹克举重基础动作，发展全身爆发力和协调性。',steps:['杠铃置地面，站距与髋同宽','握距略宽于肩，背部挺直','发力拉起杠铃并加速','杠铃过膝后爆发伸髋耸肩','快速下蹲翻肘接杠于前肩','站直完成'],tips:['这是爆发力动作不是慢速硬拉','接杠时肘部快速前翻'],mistakes:[{m:'用臂力翻杠',f:'发力来自腿和髋'}],vari:['barbell']},
+{n:'借力推举',c:'推举类',m:['三角肌','全身爆发力'],s:['肱三头肌','核心肌群','股四头肌'],r:'全身',t:'爆发力',me:'推',region:'full',desc:'利用腿部小幅下蹲预加载后爆发推举。',steps:['站姿杠铃置于前肩','小幅下蹲（约1/4深蹲）','爆发性伸膝伸髋将杠铃上推','手臂锁定接住杠铃'],tips:['下蹲和推举一气呵成'],mistakes:[{m:'下蹲过深',f:'小幅预蹲即可'}],vari:['barbell']},
+{n:'深蹲跳',c:'深蹲类',m:['股四头肌','臀大肌'],s:['小腿肌群'],r:'下肢',t:'增强式',me:'蹲',region:'lower',desc:'自重深蹲加跳跃，HIIT和增强式训练的基本动作。',steps:['站姿双脚与肩同宽','下蹲至大腿低于水平','从底部爆发性跳起','落地后立即衔接下一次'],tips:['落地时膝盖微屈缓冲'],mistakes:[{m:'落地膝盖锁死',f:'保持膝盖微屈缓冲'}],vari:['bodyweight']},
+{n:'农夫行走',c:'硬拉类',m:['前臂肌群','斜方肌'],s:['核心肌群','臀大肌','股四头肌'],r:'全身',t:'复合动作',me:'举',region:'full',desc:'双手各持重物行走，极佳的握力和核心训练。',steps:['双手各持一只大重量哑铃/壶铃','挺胸沉肩','核心收紧','大步向前走保持身体稳定'],tips:['肩膀远离耳朵','保持身体不倾斜'],mistakes:[{m:'身体歪斜',f:'选略轻的重量保持平衡'}],vari:['dumbbell','kettlebell']},
+{n:'坐姿提踵',c:'深蹲类',m:['比目鱼肌'],s:['腓肠肌'],r:'下肢',t:'孤立动作',me:'伸',region:'lower',desc:'坐姿进行提踵训练更针对比目鱼肌。',steps:['坐姿，前脚掌踩踏板边缘','膝盖上方放置重物或使用坐姿提踵机','呼气踮脚尖至最高','顶峰收缩1-2秒','吸气控制下放'],tips:['全程控制速度'],mistakes:[{m:'弹跳借力',f:'放慢全程'}],vari:['machine','bodyweight']},
+{n:'腕弯举',c:'弯举类',m:['前臂肌群'],s:[],r:'上肢',t:'孤立动作',me:'屈',region:'upper',desc:'专门针对前臂屈肌的训练，增强握力和前臂围度。',steps:['坐姿前臂放在大腿或平凳上','手腕悬空，掌心朝上持重物','呼气屈腕向上卷','顶峰收缩','吸气控制下放'],tips:['只有手腕在动','离心慢放'],mistakes:[{m:'前臂离开支撑面',f:'前臂稳稳放好'}],vari:['barbell','dumbbell']}];
+
+var id=0;function makeId(){return 'ex_'+String(++id).padStart(4,'0');}
+var allEx=[];
+bases.forEach(function(b){(b.vari||['bodyweight']).forEach(function(v){
+  var equip=eq[v]||[v];var name='';
+  if(v==='barbell')name='杠铃'+b.n;else if(v==='dumbbell')name='哑铃'+b.n;else if(v==='machine')name='器械'+b.n;else if(v==='cable')name='绳索'+b.n;else if(v==='kettlebell')name='壶铃'+b.n;else if(v==='band')name='弹力带'+b.n;else if(v==='bodyweight'&&['俯卧撑','引体向上','双杠臂屈伸','平板支撑','悬垂举腿','卷腹','深蹲跳','俄罗斯转体','反握引体向上'].indexOf(b.n)!==-1)name=b.n;else if(v==='bodyweight')name='自重'+b.n;
+  var diffs=(diffOverride[b.n]||b.d||eqDiffs[v]||["初级"]);
+  diffs.forEach(function(dl){
+    allEx.push({id:makeId(),name:name,category:b.c,targetMuscles:b.m.slice(),secondaryMuscles:b.s.slice(),equipment:equip.slice(),difficulty:diff[dl]||2,bodyRegion:b.r,movementType:b.t,mechanics:b.me||'',description:b.desc,steps:b.steps.slice(),tips:b.tips.slice(),commonMistakes:(b.mistakes||[]).map(function(x){return{mistake:x.m,fix:x.f};}),isCustom:false,region:b.region});
+  });
+});});
+var c1=allEx.length;
+var seen={};allEx=allEx.filter(function(ex){var k=ex.name+'|'+ex.equipment.sort().join(',')+'|'+ex.difficulty;if(seen[k])return false;seen[k]=true;return true;});
+function normName(n){return n.replace(/^(杠铃|哑铃|器械|绳索|壶铃|弹力带|自重)/,'').replace(/[ /·-]/g,'').toLowerCase();}
+var c2=allEx.length;var groups2={};allEx.forEach(function(ex){var k=normName(ex.name)+'|'+ex.equipment.sort().join(',');if(!groups2[k])groups2[k]=[];groups2[k].push(ex);});var removed2=0;allEx=[];Object.keys(groups2).forEach(function(k){var g=groups2[k];if(g.length===1){allEx.push(g[0]);return;}g.sort(function(a,b){return a.difficulty-b.difficulty;});var best=g[Math.floor((g.length-1)/2)];allEx.push(best);removed2+=g.length-1;});
+window.ALL_EXERCISES=allEx;
+console.log('动作库：'+allEx.length+' 个动作');
+})();
+
+// ==================== 应用逻辑 ====================
+(function(){
+var H={getDifficultyLabel:function(l){return['','入门','初级','中级','高级','专业'][l]||'未知';},getDiffStars:function(l){var s='';for(var i=0;i<l;i++)s+='⭐';return s;},searchMatch:function(ex,q){if(!q)return true;var f=[ex.name,ex.category].concat(ex.targetMuscles).concat(ex.secondaryMuscles).concat(ex.equipment).concat([ex.bodyRegion]);q=q.toLowerCase();return f.some(function(t){if(!t)return false;t=t.toLowerCase();if(t.indexOf(q)!==-1)return true;var ci=0;for(var i=0;i<t.length;i++){if(t[i]===q[ci])ci++;if(ci===q.length)return true;}return false;});}};
+var state={exercises:window.ALL_EXERCISES||[],filtered:[],filters:{muscles:{},categories:{},equipment:{},difficulties:{}},query:'',view:'list',selected:null};
+state.filtered=state.exercises.slice();
+
+function applyFilters(){
+  var f=state.filters,r=state.exercises.slice();
+  var mk=Object.keys(f.muscles);if(mk.length>0){var mm={chest:['胸大肌','胸部'],back:['背阔肌','斜方肌','菱形肌','竖脊肌','背部'],legs:['股四头肌','腘绳肌','小腿','腿部'],shoulders:['三角肌','肩部'],arms:['肱二头肌','肱三头肌','前臂','手臂'],abs:['腹直肌','腹斜肌','核心肌群','腹部'],glutes:['臀大肌','臀中肌','臀小肌','臀部']};r=r.filter(function(ex){var allM=ex.targetMuscles.concat(ex.secondaryMuscles||[]);return mk.some(function(k){var kw=mm[k]||[];return allM.some(function(m){return kw.some(function(w){return m.indexOf(w)!==-1;});});});});}
+  var ck=Object.keys(f.categories);if(ck.length>0){var cm={squat:'深蹲类',bench:'卧推类',row:'划船类',deadlift:'硬拉类',curl:'弯举类',press:'推举类',pulldown:'下拉类',crunch:'腹肌类',fly:'飞鸟类',raise:'平举类'};r=r.filter(function(ex){return ck.some(function(k){return ex.category===cm[k];});});}
+  var ek=Object.keys(f.equipment);if(ek.length>0){var em={barbell:'杠铃',dumbbell:'哑铃',machine:'固定器械',cable:'绳索',bodyweight:'自重',kettlebell:'壶铃',band:'弹力带'};r=r.filter(function(ex){return ex.equipment.some(function(eq){return ek.some(function(k){return eq.indexOf(em[k])!==-1;});});});}
+  var dk=Object.keys(f.difficulties);if(dk.length>0){r=r.filter(function(ex){return dk.some(function(k){return ex.difficulty===parseInt(k);});});}
+  if(state.query){r=r.filter(function(ex){return H.searchMatch(ex,state.query);});}
+  state.filtered=r;renderCards();
+  var el=document.getElementById('resultLabel');if(el){var top=el.getBoundingClientRect().top+window.pageYOffset-80;window.scrollTo({top:top,behavior:'smooth'});}
+}
+function toggleFilter(cat,val,el){
+  var isSingle=['muscles','categories'].indexOf(cat)!==-1;
+  if(state.filters[cat][val]){delete state.filters[cat][val];el.classList.remove('pill-active');el.classList.add('pill-idle');}
+  else{if(isSingle)clearFilterGroup(cat);state.filters[cat][val]=true;el.classList.add('pill-active');el.classList.remove('pill-idle');}
+  applyFilters();
+}
+function clearFilterGroup(cat){
+  Object.keys(state.filters[cat]).forEach(function(k){delete state.filters[cat][k];});
+  var cid={muscles:'musclePills',categories:'categoryPills',equipment:'equipPills',difficulties:'diffPills'}[cat];
+  var c=document.getElementById(cid);if(c){c.querySelectorAll('.pill-active').forEach(function(p){p.classList.remove('pill-active');p.classList.add('pill-idle');});}
+}
+function initPills(){
+  makePills('musclePills',[{k:'chest',n:'胸部'},{k:'back',n:'背部'},{k:'legs',n:'腿部'},{k:'shoulders',n:'肩部'},{k:'arms',n:'手臂'},{k:'abs',n:'腹肌'},{k:'glutes',n:'臀部'}],'muscles');
+  makePills('categoryPills',[{k:'squat',n:'深蹲类'},{k:'bench',n:'卧推类'},{k:'row',n:'划船类'},{k:'deadlift',n:'硬拉类'},{k:'curl',n:'弯举类'},{k:'press',n:'推举类'},{k:'pulldown',n:'下拉类'},{k:'crunch',n:'腹肌类'},{k:'fly',n:'飞鸟类'},{k:'raise',n:'平举类'}],'categories');
+  makePills('equipPills',[{k:'barbell',n:'杠铃'},{k:'dumbbell',n:'哑铃'},{k:'machine',n:'固定器械'},{k:'cable',n:'绳索'},{k:'bodyweight',n:'自重'},{k:'kettlebell',n:'壶铃'},{k:'band',n:'弹力带'}],'equipment');
+  makePills('diffPills',[{k:'1',n:'入门'},{k:'2',n:'初级'},{k:'3',n:'中级'},{k:'4',n:'高级'},{k:'5',n:'专业'}],'difficulties');
+}
+function makePills(id,items,cat){
+  var c=document.getElementById(id);if(!c)return;c.innerHTML='';
+  items.forEach(function(item){
+    var el=document.createElement('span');
+    el.className='px-4 py-2.5 rounded-full text-sm font-medium whitespace-nowrap cursor-pointer transition-all pill-idle touch-feedback';
+    el.textContent=item.n;
+    el.addEventListener('click',function(){toggleFilter(cat,item.k,el);});
+    c.appendChild(el);
+  });
+}
+function renderCards(){
+  if(state.view!=='list')return;
+  var grid=document.getElementById('cardGrid'),total=state.filtered.length;
+  document.getElementById('resultCount').textContent=total+' 个动作';
+  document.getElementById('heroCount').textContent=total;
+  var ac=Object.keys(state.filters.muscles).length+Object.keys(state.filters.categories).length+Object.keys(state.filters.equipment).length+Object.keys(state.filters.difficulties).length;
+  document.getElementById('resultLabel').textContent=(ac>0||state.query)?'筛选结果':'全部动作';
+  if(!grid)return;grid.innerHTML='';
+  if(total===0){grid.innerHTML='<div class="col-span-full text-center py-16" style="color:var(--text-secondary)"><span class="text-5xl block mb-4">🔍</span><p class="text-lg">没有匹配的动作</p><p class="text-sm mt-2 opacity-60">尝试调整筛选条件或搜索关键词</p></div>';return;}
+  var html='',icons={深蹲类:'🦵',卧推类:'🏋️',划船类:'🚣',硬拉类:'🏋️',弯举类:'💪',推举类:'🙆',下拉类:'🧗',腹肌类:'🔥',飞鸟类:'🕊️',平举类:'🕊️'};
+  for(var i=0;i<state.filtered.length;i++){(function(ex){
+    var star=H.getDiffStars(ex.difficulty),icon=icons[ex.category]||'🏋️',region=ex.bodyRegion||'',diffLabel=H.getDifficultyLabel(ex.difficulty)||'';
+    html+='<div class="workout-card rounded-2xl border p-4 cursor-pointer shadow-sm" data-id="'+ex.id+'" style="border-color:var(--theme-bg-light)"><div class="flex items-start justify-between mb-2"><span class="text-2xl">'+icon+'</span><span class="text-xs" style="color:var(--text-secondary)">'+star+'</span></div><h3 class="font-semibold text-base" style="color:var(--text-primary)">'+(ex.name||'')+'</h3><div class="flex flex-wrap gap-1.5 mt-2">'+(ex.targetMuscles&&ex.targetMuscles[0]?'<span class="text-[10px] px-2 py-0.5 rounded-full font-medium" style="background:var(--theme-bg-light);color:var(--theme-color)">'+ex.targetMuscles[0]+'</span>':'')+(ex.equipment&&ex.equipment[0]?'<span class="text-[10px] px-2 py-0.5 rounded-full font-medium" style="background:rgba(128,128,128,0.1);color:var(--text-secondary)">'+ex.equipment[0]+'</span>':'')+'</div><div class="flex justify-between items-center mt-3 text-xs" style="color:var(--text-secondary)"><span>'+region+'</span><span class="font-medium">'+diffLabel+'</span></div></div>';
+  })(state.filtered[i]);}
+  grid.innerHTML=html;
+  grid.onclick=function(e){var card=e.target.closest('[data-id]');if(card)showDetail(card.getAttribute('data-id'));};
+}
+function showDetail(id){
+  var ex=null;for(var i=0;i<state.exercises.length;i++){if(state.exercises[i].id===id){ex=state.exercises[i];break;}}
+  if(!ex)return;state.selected=ex;state.view='detail';document.body.style.overflow='hidden';
+  document.getElementById('detailBreadcrumb').textContent=(ex.category||'')+' › '+(ex.name||'');
+  var tags='';ex.targetMuscles.forEach(function(m){tags+='<span class="text-xs px-3 py-1.5 rounded-full font-medium" style="background:var(--theme-bg-light);color:var(--theme-color)">'+m+'</span>';});
+  ex.secondaryMuscles.forEach(function(m){tags+='<span class="text-xs px-3 py-1.5 rounded-full font-medium border" style="background:rgba(128,128,128,0.05);color:var(--text-secondary);border-color:var(--theme-bg-light)">'+m+'</span>';});
+  ex.equipment.forEach(function(e){tags+='<span class="text-xs px-3 py-1.5 rounded-full font-medium border" style="background:rgba(128,128,128,0.05);color:var(--text-secondary);border-color:var(--theme-bg-light)">'+e+'</span>';});
+  var steps='';ex.steps.forEach(function(s,i){steps+='<div class="flex gap-3 py-2"><span class="flex-shrink-0 w-6 h-6 rounded-full text-white text-xs flex items-center justify-center font-medium" style="background:var(--theme-color)">'+(i+1)+'</span><span class="text-sm" style="color:var(--text-primary)">'+s+'</span></div>';});
+  var tips='';ex.tips.forEach(function(t){tips+='<div class="flex gap-2 py-1 text-sm" style="color:var(--text-secondary)"><span>•</span><span>'+t+'</span></div>';});
+  var mistakes='';if(ex.commonMistakes&&ex.commonMistakes.length>0){ex.commonMistakes.forEach(function(m){mistakes+='<div class="flex gap-3 py-2 px-3 rounded-xl border-l-2" style="background:rgba(255,59,48,0.06);border-color:#ff3b30"><span class="flex-shrink-0 font-semibold text-xs" style="color:#ff3b30">❌ '+(m.mistake||'')+'</span><span class="text-xs" style="color:var(--text-secondary)">'+(m.fix||'')+'</span></div>';});}else{mistakes='<p class="text-sm" style="color:var(--text-secondary)">暂无常见错误记录</p>';}
+  document.getElementById('detailContent').innerHTML='<h2 class="text-xl font-bold mb-2" style="color:var(--text-primary)">'+(ex.name||'')+'</h2><div class="flex flex-wrap gap-2 mb-3">'+tags+'</div><p class="text-sm mb-4" style="color:var(--text-secondary)">'+H.getDiffStars(ex.difficulty)+' '+H.getDifficultyLabel(ex.difficulty)+' · '+(ex.movementType||'')+' · '+(ex.bodyRegion||'')+'</p><p class="text-sm leading-relaxed mb-4" style="color:var(--text-secondary)">'+(ex.description||'')+'</p><div class="mb-4"><h4 class="font-semibold mb-2" style="color:var(--text-primary)">📝 动作步骤</h4>'+steps+'</div><div class="mb-4"><h4 class="font-semibold mb-2" style="color:var(--text-primary)">💡 发力技巧</h4>'+tips+'</div><div><h4 class="font-semibold mb-2" style="color:var(--text-primary)">⚠️ 常见错误</h4>'+mistakes+'</div>';
+  var d=document.getElementById('detailOverlay'),dc=document.getElementById('detailCard');d.classList.remove('hidden');dc.classList.add('animate-in');dc.scrollTop=0;
+}
+window.closeDetail=function(){state.view='list';var dc=document.getElementById('detailCard'),d=document.getElementById('detailOverlay');dc.classList.add('animate-out');setTimeout(function(){d.classList.add('hidden');dc.classList.remove('animate-in','animate-out');document.body.style.overflow=isOverlayOpen()?'hidden':'';},200);};
+window.resetAll=function(){state.filters={muscles:{},categories:{},equipment:{},difficulties:{}};state.query='';document.getElementById('searchInput').value='';initPills();state.filtered=state.exercises.slice();renderCards();var el=document.getElementById('resultLabel');if(el){var top=el.getBoundingClientRect().top+window.pageYOffset-80;window.scrollTo({top:top,behavior:'smooth'});}};
+var dt;document.getElementById('searchInput').addEventListener('input',function(){clearTimeout(dt);var self=this;dt=setTimeout(function(){state.query=self.value.trim();applyFilters();},200);});
+var calcGender='male';
+window.setGender=function(g,el){calcGender=g;document.getElementById('btnMale').style.cssText='background:'+(g==='male'?'var(--theme-color)':'var(--theme-bg-light)')+';color:'+(g==='male'?'#fff':'var(--text-secondary)');document.getElementById('btnFemale').style.cssText='background:'+(g==='female'?'var(--theme-color)':'var(--theme-bg-light)')+';color:'+(g==='female'?'#fff':'var(--text-secondary)');};
+window.doCalc=function(){var h=parseFloat(document.getElementById('inHeight').value),w=parseFloat(document.getElementById('inWeight').value),a=parseInt(document.getElementById('inAge').value);if(!h||!w||!a){alert('请填写完整的身高、体重和年龄');return;}var bmi=w/((h/100)*(h/100)),bmr;if(calcGender==='male')bmr=10*w+6.25*h-5*a+5;else bmr=10*w+6.25*h-5*a-161;var label='';if(bmi<18.5)label='偏瘦';else if(bmi<24)label='正常范围 ✅';else if(bmi<28)label='偏重';else label='肥胖';document.getElementById('resBmi').textContent=bmi.toFixed(1);document.getElementById('resBmiLabel').textContent=label;document.getElementById('resBmr').textContent=Math.round(bmr);document.getElementById('calcResult').classList.remove('hidden');};
+window.openCalc=function(){var o=document.getElementById('calcOverlay'),cc=document.getElementById('calcCard');o.classList.remove('hidden');cc.classList.add('animate-in');document.body.style.overflow='hidden';};
+window.closeCalc=function(){var cc=document.getElementById('calcCard'),o=document.getElementById('calcOverlay');cc.classList.add('animate-out');setTimeout(function(){o.classList.add('hidden');cc.classList.remove('animate-in','animate-out');document.body.style.overflow=isOverlayOpen()?'hidden':'';},200);};
+function isOverlayOpen(){return !document.getElementById('detailOverlay').classList.contains('hidden')||!document.getElementById('calcOverlay').classList.contains('hidden');}
+window.toggleTheme=function(){
+  var html=document.documentElement,current=html.getAttribute('data-theme')||'blue',btn=document.getElementById('themeBtn');
+  var isDark=current.indexOf('dark')!==-1;
+  if(isDark){html.setAttribute('data-theme',current.replace('-dark',''));btn.textContent='🌙';}
+  else{html.setAttribute('data-theme',current+'-dark');btn.textContent='☀️';}
+  try{localStorage.setItem('fitness-theme',html.getAttribute('data-theme'));}catch(e){}
+};
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeDetail();closeCalc();}});
+document.getElementById('detailOverlay').addEventListener('click',function(e){if(e.target===this)closeDetail();});
+document.getElementById('calcOverlay').addEventListener('click',function(e){if(e.target===this)closeCalc();});
+function init(){
+  state.exercises=window.ALL_EXERCISES||[];state.filtered=state.exercises.slice();
+  var saved;try{saved=localStorage.getItem('fitness-theme');}catch(e){saved=null;}
+  if(saved)document.documentElement.setAttribute('data-theme',saved);
+  var isDark=(document.documentElement.getAttribute('data-theme')||'').indexOf('dark')!==-1;
+  document.getElementById('themeBtn').textContent=isDark?'☀️':'🌙';
+  initPills();renderCards();
+  console.log('✅ 健身运动库已就绪 — '+state.exercises.length+' 个动作');
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+</body>
+</html>
